@@ -8,7 +8,6 @@ import {
   Users2,
   ListCheck,
   University,
-  GraduationCap,
   ShoppingCart,
 } from "lucide-react";
 
@@ -112,18 +111,18 @@ const Sidebar = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  to="/students"
+                  to="/crm/dashboard/leave"
                   className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
-                    isActive("/students")
+                    isActive("/crm/dashboard/leave")
                       ? "bg-purple-800 text-primary-foreground hover:text-white"
                       : "text-muted-foreground"
                   }`}
                 >
-                  <GraduationCap className="h-5 w-5" />
-                  <span className="sr-only">Students</span>
+                  <ListCheck className="h-5 w-5" />
+                  <span className="sr-only">Leaves</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Students</TooltipContent>
+              <TooltipContent side="right">Leave</TooltipContent>
             </Tooltip>
 
             {/* Class */}

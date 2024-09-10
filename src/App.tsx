@@ -10,6 +10,7 @@ import OrganisationDetails from "./page/onbarding/OrganisationDetails";
 import OnboardingDetails from "./page/onbarding/OnboardingDetails";
 import DashboardUsers from "./page/dashboard/DashboardUsers";
 import UserDetails from "./page/userdetail/UserDetails";
+import DashboardLeave from "./page/dashboard/DashboardLeave";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/crm/dashboard/home" element={<DashboardHome />} />
             <Route path="/crm/dashboard/users" element={<DashboardUsers />} />
             <Route path="/crm/dashboard/users/:id" element={<UserDetails />} />
+            <Route path="/crm/dashboard/leave" element={<DashboardLeave />} />
           </Route>
           <Route
             path="/organization-details/:id"

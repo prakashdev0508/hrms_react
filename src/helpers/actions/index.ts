@@ -125,3 +125,49 @@ export const updateUserDetailById = async (id: String, data: any) => {
     throw error;
   }
 };
+
+// Leaves
+export const leaveList = async ({
+  page = 1,
+  limit = 10,
+  sortField = "startDate",
+  sortOrder = "desc",
+  statusFilter = "",
+}) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/${api_client.leaveList}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+      params: {
+        page,
+        limit,
+        sortField,
+        sortOrder,
+        status: statusFilter, // Add status filter if needed
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const leaveAction = async (data: any) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/${api_client.leaveAction}`,
+      data,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
