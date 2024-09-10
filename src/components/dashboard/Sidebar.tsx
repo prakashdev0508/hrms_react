@@ -40,7 +40,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import { toast } from "sonner";
-import SmallLogo from "../../../public/images/image.png";
+import SmallLogo from "/images/image.png";
 
 const Sidebar = () => {
   const [openLogoutAlert, setOpenLogoutAlert] = useState(false);
