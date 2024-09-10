@@ -1,17 +1,21 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "ESNext",             // Use a modern version of JavaScript
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Support for DOM & ESNext APIs
+    "module": "ESNext",    
+    "jsx": "react-jsx",             // Enable JSX support for React (React 17+)
+    "strict": true,                 // Enable strict type-checking
+    "esModuleInterop": true,        // Allow default imports from modules
+    "skipLibCheck": true,           // Skip checking .d.ts files
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true, // or "emitDeclarationOnly": true
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]            
     }
-  }
+  },
+  "include": ["src"],               // Include your source files
+  "exclude": ["node_modules", "dist"] // Exclude unnecessary directories
 }
