@@ -22,7 +22,7 @@ const DashboardLeave = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortField, setSortField] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [statusFilter, setStatusFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("pending");
   const [leaveModal, setLeaveModal] = useState(false);
   const [leaveData, setLeaveData] = useState<any>(null);
   const [submitLoader, setSubmitLoader] = useState(false);
@@ -88,7 +88,7 @@ const DashboardLeave = () => {
     },
     {
       name: "Status",
-      selector: (row: any) => row.status || "Pending",
+      selector: (row: any) => row.status || "pending",
       sortable: true,
       width: "10%",
       id: "status",
@@ -102,7 +102,7 @@ const DashboardLeave = () => {
               : "bg-yellow-200"
           }`}
         >
-          {row.status || "Pending"}
+          {row.status || "pending"}
         </span>
       ),
     },
@@ -162,16 +162,10 @@ const DashboardLeave = () => {
   return (
     <div>
       <div className="mt-5">
-        <Tabs defaultValue="all">
+        <Tabs defaultValue="pending">
           <TabsList>
             <TabsTrigger value="all" onClick={() => handleTabChange("")}>
               All
-            </TabsTrigger>
-            <TabsTrigger
-              value="approved"
-              onClick={() => handleTabChange("approved")}
-            >
-              Approved
             </TabsTrigger>
             <TabsTrigger
               value="pending"
@@ -179,6 +173,13 @@ const DashboardLeave = () => {
             >
               Pending
             </TabsTrigger>
+            <TabsTrigger
+              value="approved"
+              onClick={() => handleTabChange("approved")}
+            >
+              Approved
+            </TabsTrigger>
+           
             <TabsTrigger
               value="rejected"
               onClick={() => handleTabChange("rejected")}
