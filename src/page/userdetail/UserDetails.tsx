@@ -79,7 +79,7 @@ const UserDetails = () => {
         return "bg-red-600";
       case "late":
         return "bg-yellow-300";
-      case "early":
+      case "half_day":
         return "bg-red-200";
       case "checked_in":
         return "bg-green-200";
