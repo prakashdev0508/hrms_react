@@ -6,5 +6,7 @@ export default {
   crmHome: "crm/dashboard/home",
   crmUsers: "crm/dashboard/users",
   leaveList: "leave/leave_list",
+  regularizaionList: "attendence/regularize/list",
   leaveAction: "leave/approve",
+  regularizationAction: "attendence/regularize/action",
 };

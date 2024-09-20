@@ -129,18 +129,18 @@ const Sidebar = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  to="/class"
+                  to="/crm/dashboard/regularization"
                   className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
-                    isActive("/class")
+                    isActive("/crm/dashboard/regularization")
                       ? "bg-purple-800 text-primary-foreground hover:text-white"
                       : "text-muted-foreground"
                   }`}
                 >
                   <University className="h-5 w-5" />
-                  <span className="sr-only">Class</span>
+                  <span className="sr-only">Regularization</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Class</TooltipContent>
+              <TooltipContent side="right">Regularization</TooltipContent>
             </Tooltip>
 
             {/* Attendance */}

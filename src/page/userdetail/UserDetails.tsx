@@ -87,6 +87,8 @@ const UserDetails = () => {
         return "bg-blue-300";
       case "not available":
         return "bg-gray-200";
+      case "approved_regularise":
+        return "bg-green-300";
       default:
         return "bg-gray-100";
     }

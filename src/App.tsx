@@ -11,6 +11,7 @@ import OnboardingDetails from "./page/onbarding/OnboardingDetails";
 import DashboardUsers from "./page/dashboard/DashboardUsers";
 import UserDetails from "./page/userdetail/UserDetails";
 import DashboardLeave from "./page/dashboard/DashboardLeave";
+import DashboardRegularization from "./page/dashboard/DashboardRegularization";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/crm/dashboard/users" element={<DashboardUsers />} />
             <Route path="/crm/dashboard/users/:id" element={<UserDetails />} />
             <Route path="/crm/dashboard/leave" element={<DashboardLeave />} />
+            <Route path="/crm/dashboard/regularization" element={<DashboardRegularization />} />
           </Route>
           <Route
             path="/organization-details/:id"
