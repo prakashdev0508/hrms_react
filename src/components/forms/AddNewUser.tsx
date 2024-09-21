@@ -51,7 +51,6 @@ const AddNewUser = ({
 
     try {
       const response = await axios.post(`${BASE_URL}/user/create`, values);
-      console.log(response);
       toast.success("User added successfully!");
       fetchData();
       handlemodalChange();

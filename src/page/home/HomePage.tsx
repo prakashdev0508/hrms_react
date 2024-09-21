@@ -8,7 +8,6 @@ const HomePage = () => {
   const fetchData = async () => {
     try {
       const response = await websiteHome();
-      console.log(response);
       setHomePageData(response);
     } catch (error) {
       setHomePageData(null);

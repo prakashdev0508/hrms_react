@@ -9,4 +9,5 @@ export default {
   regularizaionList: "attendence/regularize/list",
   leaveAction: "leave/approve",
   regularizationAction: "attendence/regularize/action",
+  pendingCounts : "crm/dashboard/pending_request"
 };

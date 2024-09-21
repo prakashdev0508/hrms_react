@@ -220,3 +220,20 @@ export const regularizationAction = async (data: any) => {
     throw error;
   }
 };
+
+export const sideBarApi = async ()=>{
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/${api_client.pendingCounts}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

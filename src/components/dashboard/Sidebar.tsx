@@ -40,10 +40,12 @@ import { Link, useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import { toast } from "sonner";
 import SmallLogo from "/images/image.png";
+import { sideBarApi } from "@/helpers/actions";
 
 const Sidebar = () => {
   const [openLogoutAlert, setOpenLogoutAlert] = useState(false);
   const [locationUrl, setLocationUrl] = useState("");
+  const [sidebarData, setSidebarData] = useState<any>(null);
 
   useEffect(() => {
     const currentUrl = window.location.pathname;
@@ -61,6 +63,23 @@ const Sidebar = () => {
   };
 
   const isActive = (url: string) => locationUrl.startsWith(url);
+
+  const fetchData = async () => {
+    try {
+      const response = await sideBarApi();
+
+      setSidebarData(response?.data);
+    } catch (error) {
+      console.log(error);
+      setSidebarData(null);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(sidebarData)
 
   return (
     <>

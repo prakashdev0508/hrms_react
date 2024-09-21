@@ -48,8 +48,6 @@ const OnboardingDetailsForm = ({ pricingId }: any) => {
         toast.success("Organization created ");
         navigate(`/organization-details/${pricingId}`);
       }
-
-      console.log("res", response.data);
     } catch (error: any) {
       toast.error(
         error.response.data.message || "Something went wrong please try again"

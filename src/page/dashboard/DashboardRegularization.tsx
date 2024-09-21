@@ -269,7 +269,7 @@ const DashboardRegularization = () => {
           onRowClicked={handleRowClicked}
           noDataComponent={
             <div className="p-5">
-              <p>No Regularization Requests found.</p>
+              <p>No {statusFilter} regularization Requests found.</p>
             </div>
           }
         />
