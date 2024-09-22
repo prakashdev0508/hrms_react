@@ -41,11 +41,13 @@ import secureLocalStorage from "react-secure-storage";
 import { toast } from "sonner";
 import SmallLogo from "/images/image.png";
 import { sideBarApi } from "@/helpers/actions";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 const Sidebar = () => {
   const [openLogoutAlert, setOpenLogoutAlert] = useState(false);
   const [locationUrl, setLocationUrl] = useState("");
-  const [sidebarData, setSidebarData] = useState<any>(null);
+
+  const { sidebarData, fetchSideBarData } = useGlobalContext();
 
   useEffect(() => {
     const currentUrl = window.location.pathname;
@@ -64,22 +66,9 @@ const Sidebar = () => {
 
   const isActive = (url: string) => locationUrl.startsWith(url);
 
-  const fetchData = async () => {
-    try {
-      const response = await sideBarApi();
-
-      setSidebarData(response?.data);
-    } catch (error) {
-      console.log(error);
-      setSidebarData(null);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
+    fetchSideBarData();
   }, []);
-
-  console.log(sidebarData)
 
   return (
     <>
@@ -126,44 +115,56 @@ const Sidebar = () => {
               <TooltipContent side="right">Users</TooltipContent>
             </Tooltip>
 
-            {/* Students */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  to="/crm/dashboard/leave"
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
-                    isActive("/crm/dashboard/leave")
-                      ? "bg-purple-800 text-primary-foreground hover:text-white"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <ListCheck className="h-5 w-5" />
-                  <span className="sr-only">Leaves</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Leave</TooltipContent>
-            </Tooltip>
+            {/* Leaves */}
+            <div className=" relative ">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    to="/crm/dashboard/leave"
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
+                      isActive("/crm/dashboard/leave")
+                        ? "bg-purple-800 text-primary-foreground hover:text-white"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    <ListCheck className="h-5 w-5" />
+                    <span className="sr-only">Leaves</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Leave</TooltipContent>
+              </Tooltip>
+              {sidebarData && sidebarData?.pendingLeaves > 0 && (
+                <div className=" absolute top-1 right-1 text-sm bg-red-600 h-2 w-2 rounded-full text-center"></div>
+              )}
+            </div>
 
             {/* Class */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  to="/crm/dashboard/regularization"
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
-                    isActive("/crm/dashboard/regularization")
-                      ? "bg-purple-800 text-primary-foreground hover:text-white"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <University className="h-5 w-5" />
-                  <span className="sr-only">Regularization</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Regularization</TooltipContent>
-            </Tooltip>
+            <div className=" relative">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    to="/crm/dashboard/regularization"
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
+                      isActive("/crm/dashboard/regularization")
+                        ? "bg-purple-800 text-primary-foreground hover:text-white"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    <University className="h-5 w-5" />
+                    <span className="sr-only">Regularization</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Regularization</TooltipContent>
+              </Tooltip>
+              {sidebarData && sidebarData?.pendingRegularizations > 0 && (
+                <div className=" absolute top-1 right-1">
+                  {sidebarData?.pendingRegularizations}
+                </div>
+              )}
+            </div>
 
             {/* Attendance */}
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger asChild>
                 <Link
                   to="/attendence"
@@ -178,10 +179,10 @@ const Sidebar = () => {
                 </Link>
               </TooltipTrigger>
               <TooltipContent side="right">Attendence</TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
 
             {/* Products */}
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger asChild>
                 <a
                   href="#"
@@ -192,10 +193,10 @@ const Sidebar = () => {
                 </a>
               </TooltipTrigger>
               <TooltipContent side="right">Products</TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
 
             {/* Customers */}
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger asChild>
                 <a
                   href="#"
@@ -206,7 +207,7 @@ const Sidebar = () => {
                 </a>
               </TooltipTrigger>
               <TooltipContent side="right">Customers</TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
 
             {/* Analytics */}
             <Tooltip>

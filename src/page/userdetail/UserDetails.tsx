@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import withDefaultDashBoardLayout from "../../components/shared/WithDefaultDashBoardLayout";
 import { useEffect, useState } from "react";
-import { updateUserDetailById, userDetailById } from "../../helpers/actions";
+import { downloadAttendance, updateUserDetailById, userDetailById } from "../../helpers/actions";
 import moment from "moment";
 import { User2Icon } from "lucide-react";
 import { Switch } from "@headlessui/react";
@@ -87,6 +87,8 @@ const UserDetails = () => {
         return "bg-blue-300";
       case "not available":
         return "bg-gray-200";
+      case "before_join":
+        return "bg-gray-300";
       case "approved_regularise":
         return "bg-green-300";
       default:
@@ -157,6 +159,37 @@ const UserDetails = () => {
     return days;
   };
 
+  const downloadAttan = async () => {
+    try {
+
+      const data = {
+        month: 9,
+        year: 2024
+      }
+
+      const response = await downloadAttendance(id , data);
+  
+      const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      
+      link.download = `attendance_${userData?.name}_${selectedMonth + 1}_${selectedYear}.xlsx`;
+      
+      document.body.appendChild(link);
+      link.click();
+      
+      document.body.removeChild(link);
+  
+      toast.success("Attendance downloaded successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to download attendance");
+    }
+  };
+  
+  
+
   return (
     <div className="px-4">
       {loading ? (
@@ -181,7 +214,7 @@ const UserDetails = () => {
             </BreadcrumbList>
           </Breadcrumb>
             </div>
-            <div> <Button>Update User</Button> </div>
+            <div> <Button>Update User</Button> <Button variant={"outline"} onClick={downloadAttan}>Download Attandace</Button> </div>
           </div>
 
           {userData && (

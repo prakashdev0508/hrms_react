@@ -13,8 +13,10 @@ import {
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 import moment from "moment";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 const DashboardRegularization = () => {
+  const { fetchSideBarData } = useGlobalContext()
   const [regularizedAttendances, setRegularizedAttendances] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState(0);
@@ -149,6 +151,7 @@ const DashboardRegularization = () => {
         toast.success(`Regularization ${actionType}`);
         handlemodalClose();
         fetchData(currentPage, rowsPerPage, sortField, sortOrder, statusFilter);
+        fetchSideBarData()
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.message);

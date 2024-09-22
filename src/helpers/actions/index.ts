@@ -237,3 +237,20 @@ export const sideBarApi = async ()=>{
     throw error;
   }
 }
+
+export const downloadAttendance = async (id: any , data :any) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/${api_client.downloadattandaceAPI}/${id}?month=${data?.month}&year=${data?.year}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+        responseType: 'blob',
+      }
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
