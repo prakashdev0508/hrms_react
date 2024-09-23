@@ -23,14 +23,12 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
   const [sidebarData, setSidebarData] = useState<any>(null);
 
   const fetchSideBarData = async () => {
-    if (!sidebarData) {
-      try {
-        const response = await sideBarApi();
-        setSidebarData(response?.data);
-      } catch (error) {
-        console.log(error);
-        setSidebarData(null);
-      }
+    try {
+      const response = await sideBarApi();
+      setSidebarData(response?.data);
+    } catch (error) {
+      console.log(error);
+      setSidebarData(null);
     }
   };
 

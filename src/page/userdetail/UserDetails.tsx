@@ -1,10 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import withDefaultDashBoardLayout from "../../components/shared/WithDefaultDashBoardLayout";
 import { useEffect, useState } from "react";
-import { downloadAttendance, updateUserDetailById, userDetailById } from "../../helpers/actions";
+import {
+  downloadAttendance,
+  updateUserDetailById,
+  userDetailById,
+} from "../../helpers/actions";
 import moment from "moment";
 import { User2Icon } from "lucide-react";
-import { Switch } from "@headlessui/react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -23,6 +26,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../../components/ui/breadcrumb";
+import { DownloadIcon } from "lucide-react";
 
 const UserDetails = () => {
   const { id } = useParams();
@@ -91,6 +95,10 @@ const UserDetails = () => {
         return "bg-gray-300";
       case "approved_regularise":
         return "bg-green-300";
+      case "pending_regularize":
+        return "bg-yellow-200";
+      case "reject_regularise":
+        return "bg-red-300";
       default:
         return "bg-gray-100";
     }
@@ -161,34 +169,35 @@ const UserDetails = () => {
 
   const downloadAttan = async () => {
     try {
-
       const data = {
-        month: 9,
-        year: 2024
-      }
+        month: selectedMonth,
+        year: selectedYear,
+      };
 
-      const response = await downloadAttendance(id , data);
-  
-      const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-  
+      const response = await downloadAttendance(id, data);
+
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      
-      link.download = `attendance_${userData?.name}_${selectedMonth + 1}_${selectedYear}.xlsx`;
-      
+
+      link.download = `attendance_${userData?.name}_${
+        selectedMonth + 1
+      }_${selectedYear}.xlsx`;
+
       document.body.appendChild(link);
       link.click();
-      
+
       document.body.removeChild(link);
-  
+
       toast.success("Attendance downloaded successfully");
     } catch (error) {
       console.log(error);
       toast.error("Failed to download attendance");
     }
   };
-  
-  
 
   return (
     <div className="px-4">
@@ -200,21 +209,27 @@ const UserDetails = () => {
 
           <div className=" flex justify-between mb-4">
             <div>
-            <Breadcrumb className="mb-2">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link to="/crm/dashboard/users">Users</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage> {userData?.name} </BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+              <Breadcrumb className="mb-2">
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link to="/crm/dashboard/users">Users</Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage> {userData?.name} </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
             </div>
-            <div> <Button>Update User</Button> <Button variant={"outline"} onClick={downloadAttan}>Download Attandace</Button> </div>
+            <div>
+              {" "}
+              <Button>Update User</Button>{" "}
+              {/* <Button variant={"outline"} onClick={downloadAttan}>
+                Download Attandace
+              </Button>{" "} */}
+            </div>
           </div>
 
           {userData && (
@@ -304,6 +319,7 @@ const UserDetails = () => {
             </div>
             <div>
               <div className="flex justify-between items-center mb-4">
+
                 <button
                   onClick={goToPreviousMonth}
                   className="px-2 pb-1 bg-gray-300 rounded-full"
@@ -316,14 +332,12 @@ const UserDetails = () => {
                 >
                   →
                 </button>
+                <div title="Download attandance" className=" cursor-pointer ml-3" onClick={downloadAttan}>
+                  <DownloadIcon color="gray " size={20} />
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Attendance Calendar */}
-
-          {/* Navigation Buttons */}
-
           <div className="grid grid-cols-7 gap-2">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <div key={day} className="font-bold text-center">

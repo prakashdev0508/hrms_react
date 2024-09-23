@@ -157,59 +157,9 @@ const Sidebar = () => {
                 <TooltipContent side="right">Regularization</TooltipContent>
               </Tooltip>
               {sidebarData && sidebarData?.pendingRegularizations > 0 && (
-                <div className=" absolute top-1 right-1">
-                  {sidebarData?.pendingRegularizations}
-                </div>
+                <div className=" absolute top-1 right-1 text-sm bg-red-600 h-2 w-2 rounded-full text-center"></div>
               )}
             </div>
-
-            {/* Attendance */}
-            {/* <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  to="/attendence"
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
-                    isActive("/attendence")
-                      ? "bg-purple-800 text-primary-foreground hover:text-white"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <ListCheck className="h-5 w-5" />
-                  <span className="sr-only">Attendence</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Attendence</TooltipContent>
-            </Tooltip> */}
-
-            {/* Products */}
-            {/* <Tooltip>
-              <TooltipTrigger asChild>
-                <a
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                >
-                  <Package className="h-5 w-5" />
-                  <span className="sr-only">Products</span>
-                </a>
-              </TooltipTrigger>
-              <TooltipContent side="right">Products</TooltipContent>
-            </Tooltip> */}
-
-            {/* Customers */}
-            {/* <Tooltip>
-              <TooltipTrigger asChild>
-                <a
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                >
-                  <Users2 className="h-5 w-5" />
-                  <span className="sr-only">Customers</span>
-                </a>
-              </TooltipTrigger>
-              <TooltipContent side="right">Customers</TooltipContent>
-            </Tooltip> */}
-
-            {/* Analytics */}
             <Tooltip>
               <TooltipTrigger asChild>
                 <a

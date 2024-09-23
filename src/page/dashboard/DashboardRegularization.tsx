@@ -149,9 +149,9 @@ const DashboardRegularization = () => {
 
       if (response) {
         toast.success(`Regularization ${actionType}`);
+        fetchSideBarData()
         handlemodalClose();
         fetchData(currentPage, rowsPerPage, sortField, sortOrder, statusFilter);
-        fetchSideBarData()
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.message);

@@ -16,7 +16,7 @@ import moment from "moment";
 import { useGlobalContext } from "@/context/GlobalContext";
 
 const DashboardLeave = () => {
-  const { fetchSideBarData } = useGlobalContext()
+  const { fetchSideBarData } = useGlobalContext();
   const [leaves, setLeaves] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState(0);
@@ -149,7 +149,7 @@ const DashboardLeave = () => {
         toast.success(`Leave ${actionType}`);
         handlemodalClose();
         fetchData(currentPage, rowsPerPage, sortField, sortOrder, statusFilter);
-        fetchSideBarData()
+        fetchSideBarData();
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -161,75 +161,82 @@ const DashboardLeave = () => {
 
   return (
     <>
+      <div className=" absolute top-52 left-52">
+        <AlertDialog open={leaveModal} onOpenChange={handlemodalClose}>
+          <AlertDialogContent className=" relative">
+            <AlertDialogHeader className=" mb-5">
+              <AlertDialogTitle>Approve/Reject leave request</AlertDialogTitle>
+              <div
+                className=" absolute top-2 right-3 cursor-pointer"
+                onClick={handlemodalClose}
+              >
+                <Cross1Icon />
+              </div>
+            </AlertDialogHeader>
+            <div className=" grid grid-cols-3 text-sm">
+              <div>
+                <b>Applied Date </b>
+                <p>{moment(leaveData?.appliedDate).format("DD MMM YYYY")}</p>
+              </div>
+              <div>
+                <b>Leave From </b>
+                <p>{moment(leaveData?.startDate).format("DD MMM YYYY")}</p>
+              </div>
+              <div>
+                <b>Leave To </b>
+                <p>{moment(leaveData?.endDate).format("DD MMM YYYY")}</p>
+              </div>
 
-<AlertDialog open={leaveModal} onOpenChange={handlemodalClose}>
-        <AlertDialogContent className=" relative">
-          <AlertDialogHeader className=" mb-5">
-            <AlertDialogTitle>Approve/Reject leave request</AlertDialogTitle>
-            <div
-              className=" absolute top-2 right-3 cursor-pointer"
-              onClick={handlemodalClose}
-            >
-              <Cross1Icon />
-            </div>
-          </AlertDialogHeader>
-          <div className=" grid grid-cols-3 text-sm">
-            <div>
-              <b>Applied Date </b>
-              <p>{moment(leaveData?.appliedDate).format("DD MMM YYYY")}</p>
-            </div>
-            <div>
-              <b>Leave From </b>
-              <p>{moment(leaveData?.startDate).format("DD MMM YYYY")}</p>
-            </div>
-            <div>
-              <b>Leave To </b>
-              <p>{moment(leaveData?.endDate).format("DD MMM YYYY")}</p>
+              <div className=" mt-5">
+                <b>Leave Reason</b>
+                <p> {leaveData?.reason} </p>
+              </div>
+              {leaveData?.approvedBy && (
+                <div className=" mt-5">
+                  <b> {statusFilter} by </b>
+                  <p> {leaveData?.approvedBy?.name} </p>
+                </div>
+              )}
             </div>
 
-            <div className=" mt-5">
-              <b>Leave Reason</b>
-              <p> {leaveData?.reason} </p>
-            </div>
-          </div>
-
-          {leaveData?.status == "pending" && (
-            <>
-              <hr />
-              <AlertDialogFooter className="">
-                {submitLoader ? (
-                  <>
-                    <button
-                      className=" px-6 py-2 rounded-md font-semibold text-white bg-gray-500 text-sm border cursor-not-allowed"
-                      disabled={submitLoader}
-                    >
-                      {" "}
-                      Submitting....
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className=" px-6 py-2 rounded-md font-semibold hover:bg-red-600 text-white bg-red-500 text-sm border"
-                      onClick={() => handleleaveRequest("rejected")}
-                    >
-                      {" "}
-                      Reject{" "}
-                    </button>
-                    <button
-                      className=" px-6 py-2 rounded-md font-semibold hover:bg-green-600 text-white bg-green-500 text-sm border"
-                      onClick={() => handleleaveRequest("approved")}
-                    >
-                      {" "}
-                      Approve{" "}
-                    </button>
-                  </>
-                )}
-              </AlertDialogFooter>
-            </>
-          )}
-        </AlertDialogContent>
-      </AlertDialog>
+            {leaveData?.status == "pending" && (
+              <>
+                <hr />
+                <AlertDialogFooter className="">
+                  {submitLoader ? (
+                    <>
+                      <button
+                        className=" px-6 py-2 rounded-md font-semibold text-white bg-gray-500 text-sm border cursor-not-allowed"
+                        disabled={submitLoader}
+                      >
+                        {" "}
+                        Submitting....
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className=" px-6 py-2 rounded-md font-semibold hover:bg-red-600 text-white bg-red-500 text-sm border"
+                        onClick={() => handleleaveRequest("rejected")}
+                      >
+                        {" "}
+                        Reject{" "}
+                      </button>
+                      <button
+                        className=" px-6 py-2 rounded-md font-semibold hover:bg-green-600 text-white bg-green-500 text-sm border"
+                        onClick={() => handleleaveRequest("approved")}
+                      >
+                        {" "}
+                        Approve{" "}
+                      </button>
+                    </>
+                  )}
+                </AlertDialogFooter>
+              </>
+            )}
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
 
       <div className="mt-5">
         <Tabs defaultValue="pending">
@@ -281,8 +288,6 @@ const DashboardLeave = () => {
           onRowClicked={handleRowClicked}
         />
       </div>
-
-
     </>
   );
 };
