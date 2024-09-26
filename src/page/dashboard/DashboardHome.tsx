@@ -2,7 +2,9 @@ import withDefaultDashBoardLayout from "../../components/shared/WithDefaultDashB
 
 const DashboardHome = () => {
   return (
-    <div>DashboardHome</div>
+    <div>
+      
+    </div>
   )
 }
 

@@ -80,7 +80,7 @@ const UserDetails = () => {
       case "present":
         return "bg-green-300";
       case "absent":
-        return "bg-red-600";
+        return "bg-red-400";
       case "late":
         return "bg-yellow-300";
       case "half_day":
@@ -99,6 +99,8 @@ const UserDetails = () => {
         return "bg-yellow-200";
       case "reject_regularise":
         return "bg-red-300";
+      case "holiday":
+        return "bg-pink-300";
       default:
         return "bg-gray-100";
     }
@@ -128,7 +130,6 @@ const UserDetails = () => {
     }
   };
 
-  // Generate an array of days in the selected month, accounting for the first day of the month
   const generateCalendarDays = () => {
     const daysInMonth = moment({
       year: selectedYear,
@@ -136,7 +137,7 @@ const UserDetails = () => {
     }).daysInMonth();
     const firstDayOfMonth = moment({ year: selectedYear, month: selectedMonth })
       .startOf("month")
-      .day(); // 0 = Sunday, 1 = Monday, etc.
+      .day();
 
     const days = [];
 
@@ -170,7 +171,7 @@ const UserDetails = () => {
   const downloadAttan = async () => {
     try {
       const data = {
-        month: selectedMonth,
+        month: selectedMonth + 1,
         year: selectedYear,
       };
 

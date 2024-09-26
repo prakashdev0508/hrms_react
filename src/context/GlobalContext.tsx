@@ -2,7 +2,7 @@ import { sideBarApi } from "@/helpers/actions";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface GlobalContextType {
-  sidebarData: any;
+sidebarData: any;
   setSidebarData: any;
   fetchSideBarData: Function;
 }
@@ -36,6 +36,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     sidebarData,
     setSidebarData,
     fetchSideBarData,
+    
   };
 
   return (

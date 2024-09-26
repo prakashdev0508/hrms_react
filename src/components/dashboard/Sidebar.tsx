@@ -65,6 +65,7 @@ const Sidebar = () => {
   };
 
   const isActive = (url: string) => locationUrl.startsWith(url);
+  const role = secureLocalStorage.getItem("role");
 
   useEffect(() => {
     fetchSideBarData();
@@ -80,22 +81,24 @@ const Sidebar = () => {
 
           <TooltipProvider>
             {/* Dashboard */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  to="/crm/dashboard/home"
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
-                    isActive("/crm/dashboard/home")
-                      ? "bg-purple-800 text-primary-foreground hover:text-white"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <Home className="h-5 w-5" />
-                  <span className="sr-only">Dashboard</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Dashboard</TooltipContent>
-            </Tooltip>
+            {role == "super_admin" && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    to="/crm/dashboard/home"
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
+                      isActive("/crm/dashboard/home")
+                        ? "bg-purple-800 text-primary-foreground hover:text-white"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    <Home className="h-5 w-5" />
+                    <span className="sr-only">Dashboard</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Dashboard</TooltipContent>
+              </Tooltip>
+            )}
 
             {/* Users */}
             <Tooltip>
