@@ -10,5 +10,6 @@ export default {
   leaveAction: "leave/approve",
   regularizationAction: "attendence/regularize/action",
   pendingCounts : "crm/dashboard/pending_request",
-  downloadattandaceAPI : "user/download"
+  downloadattandaceAPI : "user/download",
+  attandenceDetails : "attendance_detail"
 };

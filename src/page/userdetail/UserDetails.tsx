@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   downloadAttendance,
   updateUserDetailById,
+  userAttendanceById,
   userDetailById,
 } from "../../helpers/actions";
 import moment from "moment";
@@ -34,6 +35,8 @@ const UserDetails = () => {
   const [userData, setUserData] = useState<any>(null);
   const [openToggelModal, setOpenToggelModal] = useState(false);
   const [toggelLoader, setToggelLoader] = useState(false);
+  const [attandanceData , setAttandanceData] = useState<any>([])
+  const [attananceLoading , setAttandanceLoading] = useState(false)
 
   const role = secureLocalStorage.getItem("role");
 
@@ -53,8 +56,26 @@ const UserDetails = () => {
     }
   };
 
+  const fetchAttendanceData = async (month: number, year: number) => {
+    setAttandanceLoading(true);
+    try {
+      const response = await userAttendanceById(id as String, month + 1, year);
+      console.log(response.data)
+      setAttandanceData(response.data.attendance);
+    } catch (error) {
+      setAttandanceData(null);
+    } finally {
+      setAttandanceLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchData(selectedMonth, selectedYear);
+  }, [id]);
+
+
+  useEffect(() => {
+    fetchAttendanceData(selectedMonth, selectedYear);
   }, [id, selectedMonth, selectedYear]);
 
   const goToPreviousMonth = () => {
@@ -156,7 +177,7 @@ const UserDetails = () => {
         month: selectedMonth,
         day,
       }).format("YYYY-MM-DD");
-      const attendance = userData?.attendance?.find((att: any) =>
+      const attendance = attandanceData?.find((att: any) =>
         moment(att.date).isSame(currentDate, "day")
       );
       days.push({

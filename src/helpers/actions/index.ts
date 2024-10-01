@@ -108,6 +108,31 @@ export const userDetailById = async (
   }
 };
 
+export const userAttendanceById = async (
+  id: String,
+  month: number,
+  year: number
+) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/${api_client.userDetailById}/${api_client.attandenceDetails}/${id}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+        params: {
+          month, // Pass the month as a query parameter
+          year, // Pass the year as a query parameter
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateUserDetailById = async (id: String, data: any) => {
   try {
     const response = await axios.put(
