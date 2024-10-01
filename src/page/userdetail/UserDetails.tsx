@@ -118,7 +118,7 @@ const UserDetails = () => {
         return "bg-green-300";
       case "pending_regularize":
         return "bg-yellow-200";
-      case "reject_regularise":
+      case "reject_regularise": 
         return "bg-red-300";
       case "holiday":
         return "bg-pink-300";
