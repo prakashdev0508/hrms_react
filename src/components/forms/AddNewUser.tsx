@@ -12,6 +12,7 @@ const validationSchema = Yup.object({
     .email("Invalid email address")
     .required("Email is required"),
   username: Yup.string().required("Username is required"),
+  mobileNumber: Yup.number().required("Mobile number is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
@@ -25,6 +26,7 @@ const validationSchema = Yup.object({
 const initialValues = {
   name: "",
   email: "",
+  mobileNumber : "",
   username: "",
   password: "",
   role: "",
@@ -111,6 +113,27 @@ const AddNewUser = ({
                 />
                 <ErrorMessage
                   name="email"
+                  component="div"
+                  className="text-red-600 text-sm mt-1"
+                />
+              </div>
+
+              <div className="mb-2">
+                <label
+                  htmlFor="mobileNumber"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Mobile Number
+                </label>
+                <Field
+                  id="mobileNumber"
+                  name="mobileNumber"
+                  type="number"
+                  placeholder ="Enter mobileNumber"
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
+                />
+                <ErrorMessage
+                  name="mobileNumber"
                   component="div"
                   className="text-red-600 text-sm mt-1"
                 />

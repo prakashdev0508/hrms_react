@@ -69,6 +69,7 @@ const UpdateUser = ({
     name: userData?.name || "",
     email: userData?.email || "",
     username: userData?.username || "",
+    mobileNumber : userData?.mobileNumber || "",
     role: userData?.role || "",
     allotedLeave: userData?.allotedLeave || "",
     weekLeave: userData?.weekLeave || "",
@@ -125,6 +126,28 @@ const UpdateUser = ({
                 />
                 <ErrorMessage
                   name="email"
+                  component="div"
+                  className="text-red-600 text-sm mt-1"
+                />
+              </div>
+
+              {/* Mobile number Field */}
+              <div className="mb-2">
+                <label
+                  htmlFor="mobileNumber"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Mobile Number
+                </label>
+                <Field
+                  id="mobileNumber"
+                  name="mobileNumber"
+                  type="number"
+                  placeholder="Enter mobileNumber"
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
+                />
+                <ErrorMessage
+                  name="mobileNumber"
                   component="div"
                   className="text-red-600 text-sm mt-1"
                 />
