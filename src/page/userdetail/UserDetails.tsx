@@ -130,6 +130,8 @@ const UserDetails = () => {
         return "bg-red-300";
       case "holiday":
         return "bg-pink-300";
+      case "weak_leave":
+        return "bg-blue-200";
       default:
         return "bg-gray-100";
     }
@@ -349,7 +351,7 @@ const UserDetails = () => {
                 <div className=" md:block hidden h-[82px] w-[2px] mr-8 bg-gray-200"></div>
                 <div className="mr-10">
                   <p className=" mb-1">
-                    <b>Working Days : </b> 10{" "}
+                    <b>Mobile number : </b> {userData?.mobileNumber || "Not available"}
                   </p>
                   <p className=" mb-1">
                     <b>Working Days : </b> 10{" "}
