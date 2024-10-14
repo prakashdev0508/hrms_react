@@ -45,7 +45,7 @@ const UpdateUser = ({
         values,
         {
             headers : {
-                Authorization : token
+                Authorization : `${token}`
             }
         }
       );
