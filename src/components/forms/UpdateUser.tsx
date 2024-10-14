@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import secureLocalStorage from "react-secure-storage";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 // Validation Schema using Yup
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -12,58 +13,69 @@ const validationSchema = Yup.object({
     .email("Invalid email address")
     .required("Email is required"),
   username: Yup.string().required("Username is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
   role: Yup.string().required("Role is required"),
-  allotedLeave: Yup.number()
-    .required("Allotted leave is required")
-    .min(0, "Allotted leave must be zero or more"),
   weekLeave: Yup.string().required("Week leave is required"),
 });
 
-const initialValues = {
-  name: "",
-  email: "",
-  username: "",
-  password: "",
-  role: "",
-  allotedLeave: "",
-  weekLeave: "",
-  reportingManager: "",
-  joinDate : "",
-  salary : ""
-};
-
-// AddNewUser Component
-const AddNewUser = ({
-  handlemodalChange,
+const UpdateUser = ({
+  setUpdateModal,
   fetchData,
-  reportingManagerList
+  reportingManagerList,
+  userData,
+  openUpdateModal,
 }: {
-  handlemodalChange: any;
+  setUpdateModal: any;
   fetchData: Function;
-  reportingManagerList  : any
+  reportingManagerList: any;
+  userData: any;
+  openUpdateModal: any;
 }) => {
+  const handlemodalChange = () => {
+    setUpdateModal(!openUpdateModal);
+  };
+
   const handleSubmit = async (values: any) => {
     const organizationId = secureLocalStorage.getItem("organizationDetails");
     values.organizationId = organizationId || "";
+    const token = (secureLocalStorage.getItem("accessTokenHRMS") as String) || "";
 
     try {
-      const response = await axios.post(`${BASE_URL}/user/create`, values);
-      toast.success("User added successfully!");
+      const response = await axios.put(
+        `${BASE_URL}/user/${userData._id}`,
+        values,
+        {
+            headers : {
+                Authorization : token
+            }
+        }
+      );
+      toast.success("User updated successfully!");
       fetchData();
       handlemodalChange();
     } catch (error: any) {
-      console.log("Err", error.response?.data?.message);
       toast.error(
         error.response?.data?.message ||
           "Something went wrong. Please try again."
       );
-      console.error("Error adding user:", error);
+      console.error("Error updating user:", error);
     }
   };
 
+  const formatJoinDate = (isoDate: string) => {
+    return isoDate.split("T")[0]; // Get the date part only
+  };
+
+  const initialValues = {
+    name: userData?.name || "",
+    email: userData?.email || "",
+    username: userData?.username || "",
+    role: userData?.role || "",
+    allotedLeave: userData?.allotedLeave || "",
+    weekLeave: userData?.weekLeave || "",
+    reportingManager: userData?.reportingManager?._id || "",
+    joinDate: userData?.joinDate ? formatJoinDate(userData.joinDate) : "",
+    salary: userData?.salary || "",
+  };
   return (
     <div className="p-2">
       <Formik
@@ -74,6 +86,7 @@ const AddNewUser = ({
         {({ isSubmitting }) => (
           <Form>
             <div className="grid grid-cols-2 gap-4 mb-4">
+              {/* Name Field */}
               <div className="mb-2">
                 <label
                   htmlFor="name"
@@ -84,7 +97,7 @@ const AddNewUser = ({
                 <Field
                   id="name"
                   name="name"
-                  placeholder ="Enter Name"
+                  placeholder="Enter Name"
                   type="text"
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
                 />
@@ -95,6 +108,7 @@ const AddNewUser = ({
                 />
               </div>
 
+              {/* Email Field */}
               <div className="mb-2">
                 <label
                   htmlFor="email"
@@ -106,7 +120,7 @@ const AddNewUser = ({
                   id="email"
                   name="email"
                   type="email"
-                  placeholder ="Enter Email"
+                  placeholder="Enter Email"
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
                 />
                 <ErrorMessage
@@ -116,6 +130,7 @@ const AddNewUser = ({
                 />
               </div>
 
+              {/* Username Field */}
               <div className="mb-2">
                 <label
                   htmlFor="username"
@@ -127,7 +142,7 @@ const AddNewUser = ({
                   id="username"
                   name="username"
                   type="text"
-                  placeholder ="Enter username"
+                  placeholder="Enter username"
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
                 />
                 <ErrorMessage
@@ -137,27 +152,7 @@ const AddNewUser = ({
                 />
               </div>
 
-              <div className="mb-2">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <Field
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder ="Create Password"
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-600 text-sm mt-1"
-                />
-              </div>
-
+              {/* Role Field */}
               <div className="mb-2">
                 <label
                   htmlFor="role"
@@ -183,6 +178,7 @@ const AddNewUser = ({
                 />
               </div>
 
+              {/* Allotted Leave Field */}
               <div className="mb-2">
                 <label
                   htmlFor="allotedLeave"
@@ -194,7 +190,7 @@ const AddNewUser = ({
                   id="allotedLeave"
                   name="allotedLeave"
                   type="number"
-                  placeholder ="Leave days"
+                  placeholder="Leave days"
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
                 />
                 <ErrorMessage
@@ -203,6 +199,8 @@ const AddNewUser = ({
                   className="text-red-600 text-sm mt-1"
                 />
               </div>
+
+              {/* Salary Field */}
               <div className="mb-2">
                 <label
                   htmlFor="salary"
@@ -214,10 +212,12 @@ const AddNewUser = ({
                   id="salary"
                   name="salary"
                   type="number"
-                  placeholder ="User salary per month"
+                  placeholder="User salary per month"
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"
                 />
               </div>
+
+              {/* Join Date Field */}
               <div className="mb-2">
                 <label
                   htmlFor="joinDate"
@@ -233,6 +233,7 @@ const AddNewUser = ({
                 />
               </div>
 
+              {/* Week Leave Field */}
               <div className="mb-2">
                 <label
                   htmlFor="weekLeave"
@@ -261,6 +262,8 @@ const AddNewUser = ({
                   className="text-red-600 text-sm mt-1"
                 />
               </div>
+
+              {/* Reporting Manager Field */}
               <div className="mb-2">
                 <label
                   htmlFor="reportingManager"
@@ -276,8 +279,10 @@ const AddNewUser = ({
                 >
                   <option value="">Select a reporting manager</option>
                   {reportingManagerList &&
-                    reportingManagerList?.map((user: any) => (
-                      <option value={user?._id}> {user?.name} </option>
+                    reportingManagerList.map((user: any) => (
+                      <option value={user._id} key={user._id}>
+                        {user.name}
+                      </option>
                     ))}
                 </Field>
               </div>
@@ -292,7 +297,7 @@ const AddNewUser = ({
                     : " bg-purple-700"
                 } text-white py-2 px-4 rounded-md`}
               >
-                {isSubmitting ? "Submitting..." : "Add User"}
+                {isSubmitting ? "Submitting..." : "Update User"}
               </button>
             </div>
           </Form>
@@ -302,4 +307,4 @@ const AddNewUser = ({
   );
 };
 
-export default AddNewUser;
+export default UpdateUser;

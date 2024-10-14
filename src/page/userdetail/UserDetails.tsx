@@ -8,7 +8,7 @@ import {
   userDetailById,
 } from "../../helpers/actions";
 import moment from "moment";
-import { User2Icon } from "lucide-react";
+import { Pencil, User2Icon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -28,6 +28,14 @@ import {
   BreadcrumbSeparator,
 } from "../../components/ui/breadcrumb";
 import { DownloadIcon } from "lucide-react";
+import UpdateUser from "@/components/forms/UpdateUser";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../../components/ui/dialog";
 
 const UserDetails = () => {
   const { id } = useParams();
@@ -35,8 +43,9 @@ const UserDetails = () => {
   const [userData, setUserData] = useState<any>(null);
   const [openToggelModal, setOpenToggelModal] = useState(false);
   const [toggelLoader, setToggelLoader] = useState(false);
-  const [attandanceData , setAttandanceData] = useState<any>([])
-  const [attananceLoading , setAttandanceLoading] = useState(false)
+  const [attandanceData, setAttandanceData] = useState<any>([]);
+  const [attananceLoading, setAttandanceLoading] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
 
   const role = secureLocalStorage.getItem("role");
 
@@ -60,7 +69,7 @@ const UserDetails = () => {
     setAttandanceLoading(true);
     try {
       const response = await userAttendanceById(id as String, month + 1, year);
-      console.log(response.data)
+      console.log(response.data);
       setAttandanceData(response.data.attendance);
     } catch (error) {
       setAttandanceData(null);
@@ -72,7 +81,6 @@ const UserDetails = () => {
   useEffect(() => {
     fetchData(selectedMonth, selectedYear);
   }, [id]);
-
 
   useEffect(() => {
     fetchAttendanceData(selectedMonth, selectedYear);
@@ -118,7 +126,7 @@ const UserDetails = () => {
         return "bg-green-300";
       case "pending_regularize":
         return "bg-yellow-200";
-      case "reject_regularise": 
+      case "reject_regularise":
         return "bg-red-300";
       case "holiday":
         return "bg-pink-300";
@@ -221,6 +229,10 @@ const UserDetails = () => {
     }
   };
 
+  const handleOpenChange = () => {
+    setUpdateModal(!updateModal);
+  };
+
   return (
     <div className="px-4">
       {loading ? (
@@ -247,10 +259,30 @@ const UserDetails = () => {
             </div>
             <div>
               {" "}
-              <Button>Update User</Button>{" "}
-              {/* <Button variant={"outline"} onClick={downloadAttan}>
-                Download Attandace
-              </Button>{" "} */}
+              <Dialog onOpenChange={handleOpenChange} open={updateModal}>
+                <div
+                  className=" bg-gray-950 text-white py-2 px-3 flex rounded-md shadow-md cursor-pointer  "
+                  onClick={handleOpenChange}
+                >
+                  <Pencil size={18} className="mr-2 mt-1" /> Update User{" "}
+                </div>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>
+                      <b> Update user </b>
+                    </DialogTitle>
+                    <DialogDescription>
+                      <UpdateUser
+                        reportingManagerList={userData?.reportingManagerList}
+                        userData={userData}
+                        setUpdateModal={setUpdateModal}
+                        openUpdateModal={updateModal}
+                        fetchData={fetchData}
+                      />
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
 
@@ -341,7 +373,6 @@ const UserDetails = () => {
             </div>
             <div>
               <div className="flex justify-between items-center mb-4">
-
                 <button
                   onClick={goToPreviousMonth}
                   className="px-2 pb-1 bg-gray-300 rounded-full"
@@ -354,7 +385,11 @@ const UserDetails = () => {
                 >
                   →
                 </button>
-                <div title="Download attandance" className=" cursor-pointer ml-3" onClick={downloadAttan}>
+                <div
+                  title="Download attandance"
+                  className=" cursor-pointer ml-3"
+                  onClick={downloadAttan}
+                >
                   <DownloadIcon color="gray " size={20} />
                 </div>
               </div>
